@@ -129,7 +129,7 @@ void testAVLandDoclist() {
 		//t.search(currWord)->m_elem.addPos(currDocId, currPos);
 	}
 }
-/*
+
 int main()
 {
 	Solve s;
@@ -142,10 +142,10 @@ int main()
 	//solve();
 	//testPunc();
 	//testAVLandDoclist();
-	//s.extractWordsToFile();
+	s.extractWordsToFile();
 	s.createAVLDictionary();
 	end = clock();
 	std::cout << "Time Used: " << (end - start) / 1000 << "s\n";
 	getchar();
 }
-*/
+

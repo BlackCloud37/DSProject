@@ -83,23 +83,25 @@ public:
 		//后向最大匹配的分词算法
 		int currPos = article.length() - 1;
 		while (currPos >= m_lengthOfACharacter) {
-			bool singleWord = true;
+			//bool singleWord = true;
 			//逆向扫描
 			for (int i = m_maxLengthOfWords; i >= m_lengthOfACharacter; i = i - m_lengthOfACharacter) {
 				CharString wordPossible = article.substring(currPos - i + 1, i);//截取的要扫描的词
 				if (m_hashTable.has(wordPossible)) {//存在这个词
 					ret.add(wordPossible);
-					currPos -= i;
-					singleWord = false;
-					break;
+					//currPos -= i;
+					//singleWord = false;
+					//break;
 				}
 			}
-
+			currPos -= m_lengthOfACharacter;
+			/*
 			if (singleWord) {//单字成词
 				CharString singleWordPossible = article.substring(currPos - m_lengthOfACharacter + 1, m_lengthOfACharacter);
 				ret.add(singleWordPossible);
 				currPos -= m_lengthOfACharacter;
 			}
+			*/
 			
 		}
 

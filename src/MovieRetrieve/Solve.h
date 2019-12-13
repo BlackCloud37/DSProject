@@ -25,7 +25,6 @@ public:
 		MyList<CharString> filenames;
 		fc.findFilenames("./input", filenames);
 
-
 		Segmenter seg;
 		seg.initDictionary("./词库.dic");
 
@@ -44,9 +43,9 @@ public:
 			CharString info, summary;
 			parser.extractInfo(info, summary);
 
-			//将姓名加入词库
+			//将姓名/电影名加入词库
 			MyList<CharString> names;
-			seg.getWords(CharString::UTF8ToGB(info.toStr().c_str()), names);
+			seg.getInfoWords(CharString::UTF8ToGB(info.toStr().c_str()), names);
 
 			auto nameptr = names.headPtr();
 			while (nameptr) {
@@ -80,8 +79,8 @@ public:
 	void createAVLDictionary() {
 
 		MyList<CharString> filenames;
-		//fc.findFilenames("./output", filenames);
-		fc.findFilenames("C:\\Users\\zml05\\Desktop\\output", filenames);
+		fc.findFilenames("./output", filenames);
+		//fc.findFilenames("C:\\Users\\zml05\\Desktop\\output", filenames);
 	
 		int tot = filenames.length(), count = 0;//计算进度百分比
 
@@ -96,8 +95,8 @@ public:
 			buf.clear();
 
 			if (currFile->elem().indexOf(".txt").length()) {
-				//CharString filename = CharString("./input/") + currFile->elem();
-				CharString filename = CharString("C:\\Users\\zml05\\Desktop\\output\\") + currFile->elem();
+				CharString filename = CharString("./input/") + currFile->elem();
+				//CharString filename = CharString("C:\\Users\\zml05\\Desktop\\output\\") + currFile->elem();
 				int currDocId = atoi(currFile->elem().substring(0, currFile->elem().indexOf(".txt").m_headPtr()->elem()).toCStr());
 
 
