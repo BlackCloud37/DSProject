@@ -104,11 +104,11 @@ public:
 			*/
 			
 		}
-
+		/*
 		if (!currPos) {
 			ret.add(article.substring(0, m_lengthOfACharacter));
 		}
-
+		*/
 
 		//过滤掉所有的中文标点
 		for (int i = 0; i < CHINESEPUNCNUM; i++) {

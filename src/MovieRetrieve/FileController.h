@@ -14,13 +14,15 @@ class FileController
 public:
 	//递归搜索文件夹下的所有文件，将文件名保存到fileList
 	//参考：https://www.jb51.net/article/134028.htm
-	void findFilenames(const char* lpPath, MyList<CharString>& fileList)
+	void findFilenames(const char* lpPath, MyList<CharString>& fileList, const char* suffix = "*")
 	{
 		char szFind[MAX_PATH];
 		WIN32_FIND_DATA FindFileData;
 
 		strcpy(szFind, lpPath);
-		strcat(szFind, "/*.*");
+		//strcat(szFind, "/*.*");
+		strcat(szFind, "/*.");
+		strcat(szFind, suffix);
 
 		HANDLE hFind = ::FindFirstFile(szFind, &FindFileData);
 		if (INVALID_HANDLE_VALUE == hFind)    return;
@@ -35,7 +37,7 @@ public:
 					strcpy(szFile, lpPath);
 					strcat(szFile, "\\");
 					strcat(szFile, (char*)(FindFileData.cFileName));
-					findFilenames(szFile, fileList);
+					findFilenames(szFile, fileList, suffix);
 				}
 			}
 			else
@@ -46,6 +48,7 @@ public:
 		}
 		FindClose(hFind);
 	}
+
 	//保存一个MyString到目标文件
 	void saveStringTo(CharString& s, std::string filename) {
 		std::ofstream out(filename,std::ios::trunc);
@@ -55,5 +58,4 @@ public:
 		out << s;
 		out.close();
 	}
-
 };

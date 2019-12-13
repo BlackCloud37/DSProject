@@ -7,11 +7,8 @@ class DocNode {
 public:
 	friend class DocList;
 	int docId;
-	//int urlId;
-	//MyList<int> position;
 	int count;
-    
-    
+     
 	DocNode(int docid) :docId(docid), count(0){
 
 	}
@@ -23,16 +20,14 @@ public:
     }
 	bool operator==(const DocNode& other) {
 		return count == other.count;
-		//return other.position.length() == position.length();
 	}
 	bool operator<(const DocNode& other) {
 		return count < other.count;
-		//return other.position.length() > position.length();
 	}
 	bool operator>(const DocNode& other) {
 		return count > other.count;
-		//return other.position.length() < position.length();
 	}
+	friend std::ostream& operator<<(std::ostream&, const DocNode&);
 };
 
 
@@ -67,6 +62,7 @@ class DocList :
 		}
 		return true;
 	}
+
 public:
     DocList() {
         
@@ -87,17 +83,7 @@ public:
 		}
 		return nullptr;
 	 }
-	 /*
-	 ListNode<DocNode>* searchByUrlID(int urlId) {
-		 ListNode<DocNode>* curr = m_headPtr();
-		 while (curr) {
-			 if (curr->m_elem.urlId == urlId) {//'ve found the Node, return curr
-				 return curr;
-			 }
-			 curr = curr->m_next;
-		 }
-		 return nullptr;
-	 }*/
+
 
 	 void addCount(int docId, int count = 1) {
 		 ListNode<DocNode>* node = searchByDocID(docId);
@@ -110,22 +96,12 @@ public:
 		 }
 		 return;
 	 }
-	 /*
-	 void addPos(int docId, int pos) {
-		 ListNode<DocNode>* node = searchByDocID(docId);
-		 if (!node) {
-			 add(DocNode(docId))->m_elem.position.add(pos);
-		 }
-		 else {
-			 node->m_elem.position.add(pos);
-			 update(node);
-		 }
-		 return;
-	 }
-	 */
+
+
 	 int howManyDocs() {
 		 return length();
 	 }
+
 	 int totCount() {
 		 int c = 0;
 		 auto curr = headPtr();

@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <string>
 #include <assert.h>
 #include <iostream>
@@ -77,13 +78,15 @@ public:
 		assert(index >= 0 && index <= m_length);
 		return m_data[index];
 	}
-	CharString& operator=(const CharString& str) {
+	CharString& operator=(const CharString& other) {
 
-		char* newData = new char[str.length() + RESTORESIZE]();
-		for (int i = 0; i < str.length(); i++) {
-			newData[i] = str[i];
+		char* newData = new char[other.length() + RESTORESIZE]();
+		
+		for (int i = 0; i < other.length(); i++) {
+			newData[i] = other[i];
 		}
-		m_length = str.length();
+
+		m_length = other.length();
 		newData[m_length] = '\0';
 		if (m_data)
 			delete[] m_data;
@@ -91,14 +94,17 @@ public:
 		m_data = newData;
 		return *this;
 	}
-	CharString& operator=(CharString&& str) {
+	CharString& operator=(CharString&& other) {
 		
-		char* newData = new char[str.length() + RESTORESIZE]();
-		for (int i = 0; i < str.length(); i++) {
-			newData[i] = str[i];
+		char* newData = new char[other.length() + RESTORESIZE]();
+		
+		for (int i = 0; i < other.length(); i++) {
+			newData[i] = other[i];
 		}
-		m_length = str.length();
+		//strcpy_s(newData, other.m_data);
+		m_length = other.length();
 		newData[m_length] = '\0';
+
 		if (m_data)
 			delete[] m_data;
 		m_data = newData;
@@ -134,6 +140,7 @@ public:
 		return *this;
 	}
 	bool operator==(const CharString& other) const{
+		
 		int min = m_length < other.length() ? m_length : other.length();
 		for (int i = 0; i < min; i++) {
 			if (m_data[i] != other[i]) {
@@ -143,6 +150,8 @@ public:
 		if (m_data[min] != other[min] || m_data[min] != '\0')
 			return false;
 		return true;
+		
+		//return strcmp(m_data, other.m_data)==0;
 	}
 	bool operator<(const CharString& other) const {
 		return strcmp(m_data, other.m_data)<0;
@@ -282,7 +291,7 @@ public:
 	MyList<CharString> split(const CharString& separator = "", const bool if_separator_is_successive = true, const int howmany = -1) const{
 		MyList<CharString> splited;
 		
-		if (separator == "") {
+		if (!separator.length()) {
 			int left = 0, len = 1;
 			while ((splited.length() <= howmany || howmany == -1) && left + len <= length()) {
 				splited.add(substring(left++, len));
@@ -359,9 +368,7 @@ public:
 	}
 	//×ª»¯Îªstring
 	std::string toStr() const {
-		std::string str;
-		for (int i = 0; i < length(); i++)
-			str.push_back(m_data[i]);
+		std::string str(m_data);
 		return str;
 	}
 	const char* toCStr() const {

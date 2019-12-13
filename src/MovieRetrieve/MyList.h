@@ -206,7 +206,7 @@ public:
 	void printList() const {
 		ListNode<Elemtype>* curr = m_head;
 		while (curr) {
-			std::cout << curr->m_elem << " \n";
+			std::cout << curr->m_elem << " ";
 			curr = curr->m_next;
 		}
 		std::cout << std::endl;

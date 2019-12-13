@@ -52,7 +52,7 @@ public:
 			auto nameptr = names.headPtr();
 			while (nameptr) {
 				seg.addWord(nameptr->elem());
-				segList.add(nameptr->elem());
+				//segList.add(nameptr->elem());
 				nameptr = nameptr->next();
 			}
 
@@ -81,7 +81,7 @@ public:
 	void createAVLDictionary() {
 
 		MyList<CharString> filenames;
-		fc.findFilenames("./output", filenames);
+		fc.findFilenames("./output", filenames, "txt");
 		//fc.findFilenames("C:\\Users\\zml05\\Desktop\\output", filenames);
 	
 		int tot = filenames.length(), count = 0;//计算进度百分比
@@ -93,37 +93,38 @@ public:
 		auto currFile = filenames.headPtr();
 		while (currFile) {
 			count++;
-			std::cout << std::setprecision(4) << float(count) / float(tot) * 100 << "%" << std::endl;
+			std::cout << std::setprecision(4) <<  float(count) / float(tot) * 100 << "%" << std::endl;
+
+			
+			CharString filename = CharString("./output/") + currFile->elem();
+			//CharString filename = CharString("C:\\Users\\zml05\\Desktop\\output\\") + currFile->elem();
+			int currDocId = atoi(currFile->elem().substring(0, currFile->elem().indexOf(".txt").m_headPtr()->elem()).toCStr());
+
+			docfile.open(filename.toStr());
+			assert(docfile.is_open());
 			buf.clear();
+			buf.str("");
+			buf << docfile.rdbuf();
+			auto wordList = CharString(buf.str()).split("\n");
+			docfile.close();
 
-			if (currFile->elem().indexOf(".txt").length()) {
-				CharString filename = CharString("./input/") + currFile->elem();
-				//CharString filename = CharString("C:\\Users\\zml05\\Desktop\\output\\") + currFile->elem();
-				int currDocId = atoi(currFile->elem().substring(0, currFile->elem().indexOf(".txt").m_headPtr()->elem()).toCStr());
 
-
-				docfile.open(filename.toStr());
-				assert(docfile.is_open());
-				buf << docfile.rdbuf();
-				auto wordList = CharString(buf.str()).split("\n");
-				docfile.close();
-
-				
-				auto currWord = wordList.headPtr();
-				while (currWord) {
-					if (currWord->elem().length() <= 2) {
-						currWord = currWord->next();
-						continue;
-					}
-
-                    if (!docTree.search(currWord->elem())) {
-                        docTree.insert(currWord->elem(), DocList());
-					}
-                    docTree.search(currWord->elem())->m_elem.addCount(currDocId);
-
+			auto currWord = wordList.headPtr();
+			while (currWord) {
+				/*
+				if (currWord->elem().length() <= 2) {
 					currWord = currWord->next();
+					continue;
 				}
+				*/
+				if (!docTree.search(currWord->elem())) {
+					docTree.insert(currWord->elem(), DocList());
+				}
+				docTree.search(currWord->elem())->m_elem.addCount(currDocId);
+
+				currWord = currWord->next();
 			}
+			
 			currFile = currFile->next();
 		}
 	}
@@ -151,6 +152,27 @@ public:
         return ret;
     }
 
+	void queryToFile() {
+		std::ifstream queryFile("./query1.txt");
+		//std::ofstream resultFile("./result1.txt",std::ios::trunc | std::ios::out);
+		if (!queryFile.is_open()) {
+			std::cout << "Error::Solve::queryToFile()::Can't open query1.txt\n";
+			return;
+		}
+		std::string line;
+		while (std::getline(queryFile, line)) {
+			DocList queryResult = query(CharString(line).split(" "));
+			//std::cout << line << "\n";
+			//std::cout << queryResult;
+			//std::cout << queryResult.length();
+			queryResult.printList();
+			std::cout << "\n";
+		}
+	}
+
+	MyList<int> recommend(int dstDocId) {
+
+	}
 
 };
 
