@@ -38,6 +38,7 @@ public:
 			std::cout << std::setprecision(4) << float(count) / float(tot) * 100 << "%" << std::endl;
 
 			CharString filename = CharString("./input/") + currFile->elem();
+
 			//解析得到info 和 summary;
 			parser.setHtmlByFileName(filename);
 			CharString info, summary;
@@ -45,11 +46,13 @@ public:
 
 			//将姓名/电影名加入词库
 			MyList<CharString> names;
+			MyList<CharString> segList;
 			seg.getInfoWords(CharString::UTF8ToGB(info.toStr().c_str()), names);
 
 			auto nameptr = names.headPtr();
 			while (nameptr) {
 				seg.addWord(nameptr->elem());
+				segList.add(nameptr->elem());
 				nameptr = nameptr->next();
 			}
 
@@ -61,14 +64,13 @@ public:
 			fc.saveStringTo(info, infoFilename);
 
 			//分词
-			MyList<CharString> segList;
 			seg.divideWords(CharString::UTF8ToGB(summary.toCStr()), segList);
 			CharString segmentResult = CharString::join(segList, "\n");
 
 			std::string dividewordFilename = (CharString("./output/") + currFile->elem().split(".html", true, 1).headPtr()->elem() + CharString(".txt")).toStr();
 			fc.saveStringTo(segmentResult, dividewordFilename);
-			//std::cout << segmentResult << std::endl;
 
+			
 			//下一个文件
 			currFile = currFile->next();
 		}

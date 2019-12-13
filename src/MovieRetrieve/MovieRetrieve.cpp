@@ -143,7 +143,7 @@ int main()
 	//testPunc();
 	//testAVLandDoclist();
 	s.extractWordsToFile();
-	s.createAVLDictionary();
+	//s.createAVLDictionary();
 	end = clock();
 	std::cout << "Time Used: " << (end - start) / 1000 << "s\n";
 	getchar();
