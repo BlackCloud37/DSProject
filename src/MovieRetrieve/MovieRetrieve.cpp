@@ -47,7 +47,7 @@ void testSeg() {
 
 	//将姓名加入词库
 	MyList<CharString> names;
-	seg.getWords(CharString::UTF8ToGB(info.toCStr()), names);
+	seg.getInfoWords(CharString::UTF8ToGB(info.toCStr()), names);
 	auto nameptr = names.headPtr();
 	while (nameptr) {
 		seg.addWord(nameptr->elem());

@@ -121,7 +121,7 @@ public:
 	}
 
 	//从info中解析出人名等词语
-	void getWords(const CharString& info, MyList<CharString>& wordlist) {
+	void getInfoWords(const CharString& info, MyList<CharString>& wordlist) {
 		const auto& noEngList = info.split("1234567890 \t\n~,./:-=[]{};'!?@#$%^&*()_+<>`|\\qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM", false);
 		auto curr = noEngList.headPtr();
 		while (curr)
