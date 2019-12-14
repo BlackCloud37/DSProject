@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include <iterator>
 
 
 
@@ -33,6 +33,51 @@ public:
 	}
 };
 
+
+
+template<class Elemtype>
+class MyListIterator : public std::iterator<std::input_iterator_tag, Elemtype> {
+	ListNode<Elemtype>* _ptr;
+public:
+	MyListIterator(ListNode<Elemtype>* p) {
+		_ptr = p;
+	}
+	MyListIterator& operator = (const MyListIterator& iter) {
+		_ptr = iter._ptr;
+	}
+	bool operator != (const MyListIterator& iter)
+	{
+		return _ptr != iter._ptr;
+	}
+	bool operator == (const MyListIterator& iter)
+	{
+		return _ptr == iter._ptr;
+	}
+
+	MyListIterator& operator ++ ()
+	{
+		_ptr = _ptr->m_next;
+		return *this;
+	}
+
+	MyListIterator operator ++ (int)
+	{
+		MyListIterator tmp = *this;
+		_ptr = _ptr->m_next;
+		return tmp;
+	}
+
+	ListNode<Elemtype>& operator * ()
+	{
+		return *_ptr;
+	}
+};
+
+
+
+
+
+
 template<class Elemtype>
 class MyList
 {
@@ -40,6 +85,15 @@ class MyList
 	ListNode<Elemtype>* m_tail;
 	int m_length;
 public:
+	typedef MyListIterator<Elemtype> iterator;
+	iterator begin() {
+		return iterator(m_head);
+	}
+	iterator end() {
+		return iterator(m_tail);
+		//return iterator(nullptr);
+		//return iterator(m_tail->m_next);
+	}
 	MyList() {
 		m_head = nullptr;
 		m_tail = nullptr;
@@ -144,7 +198,9 @@ public:
 	bool remove(const Elemtype& elem) {
 		return remove(search(elem));
 	}
-
+	//bool remove(ListNode<Elemtype>* elemPtr) {
+	//	return remove(elemPtr);
+	//}
 	bool remove(ListNode<Elemtype>* elemPtr) {
 		if (!elemPtr) {
 			return false;
@@ -211,26 +267,10 @@ public:
 		}
 		std::cout << std::endl;
 	}
-	//template<class Elemtype> friend std::ostream& operator<< (std::ostream&, const MyList&);
-	//template<class Elemtype> friend std::ofstream& operator<< (std::ofstream&, const MyList&);
-    friend std::ostream& operator<< (std::ostream&, const MyList&);
-    friend std::ofstream& operator<< (std::ofstream&, const MyList&);
+	template<class Elemtype> friend std::ostream& operator<< (std::ostream&, const MyList&);
+	template<class Elemtype> friend std::ofstream& operator<< (std::ofstream&, const MyList&);
+    //friend std::ostream& operator<< (std::ostream&, const MyList&);
+    //friend std::ofstream& operator<< (std::ofstream&, const MyList&);
 };
-template<class Elemtype>
-std::ostream& operator<<(std::ostream& o, const MyList<Elemtype>& l) {
-	const ListNode<Elemtype>* curr = l.headPtr();
-	while (curr) {
-		o << curr->elem() << " ";
-		curr = curr->next();
-	}
-	return o;
-}
-template<class Elemtype>
-std::ofstream& operator<<(std::ofstream& o, const MyList<Elemtype>& l) {
-	const ListNode<Elemtype>* curr = l.headPtr();
-	while (curr) {
-		o << curr->elem() << " ";
-		curr = curr->next();
-	}
-	return o;
-}
+
+

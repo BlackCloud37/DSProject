@@ -88,11 +88,11 @@ public:
 	 void addCount(int docId, int count = 1) {
 		 ListNode<DocNode>* node = searchByDocID(docId);
 		 if (!node) {
-			 add(DocNode(docId))->m_elem.count++;
+			 add(DocNode(docId))->m_elem.count += count;
 		 }
 		 else {
 			 node->m_elem.count += count;
-			 update(node);
+			 update(node);//todo fix update
 		 }
 		 return;
 	 }

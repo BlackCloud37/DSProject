@@ -29,6 +29,18 @@ void init() {
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }
 
+void testListIter() {
+	MyList<int> l;
+	for (int i = 0; i < 3; i++) {
+		l.add(i);
+	}
+
+	std::cout << (*l.begin()).elem() << " " << (*l.end()).elem() << "\n";
+	for (ListNode<int> numNode : l) {
+		std::cout << numNode.elem() << "\n";
+	}
+}
+
 
 int main()
 {
@@ -44,9 +56,17 @@ int main()
 	//testAVLandDoclist();
 	//s.extractWordsToFile();
 	s.createAVLDictionary();
+	s.createRecommendTree();
 	s.queryToFile();
+	s.recommendToFile();
+	std::cout << "\n";
+	//s.recommend(2).printList();
+	//s.queryToFile();
+	//testListIter();
 	end = clock();
 	std::cout << "Time Used: " << (end - start) / 1000 << "s\n";
-	getchar();
 }
 
+
+
+//todo: 修改getname 去重

@@ -50,7 +50,7 @@ public:
 	}
 
 	//保存一个MyString到目标文件
-	void saveStringTo(CharString& s, std::string filename) {
+	void saveStringTo(const CharString& s, std::string filename) {
 		std::ofstream out(filename,std::ios::trunc);
 		if (!out.is_open()) {
 			return;
