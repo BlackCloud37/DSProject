@@ -20,7 +20,6 @@ SOURCES += \
     ../MovieRetrieve/DocList.cpp \
     ../MovieRetrieve/FileController.cpp \
     ../MovieRetrieve/HtmlNode.cpp \
-    ../MovieRetrieve/MovieRetrieve.cpp \
     ../MovieRetrieve/MyHashTable.cpp \
     ../MovieRetrieve/MyList.cpp \
     ../MovieRetrieve/MyStack.cpp \

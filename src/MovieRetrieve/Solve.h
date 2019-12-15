@@ -23,6 +23,79 @@ class Solve
 	AVLTree<CharString, DocList> recommendTree;
 	AVLTree<int, CharString> movieIdToName;
 public:
+    void generateHtml(int docId)
+    {
+        std::string filename = "./output/" + std::to_string(docId) + ".info";
+        std::ifstream f(filename);
+		assert(f.is_open());
+        if (!f.is_open()) {
+            return;
+        }
+        
+        std::string line,target;
+        std::getline(f,line);
+        
+    
+        target += "<h1>";
+        target += line;
+        target += "</h1>";
+        
+        while(std::getline(f,line)) {
+            target += line;
+            target += "<br>";
+        }
+        target += "<br>";
+        f.close();
+        target += u8"<h1>推荐电影</h1>";
+        
+        DocList recommendlist;
+        int count = 0;
+        recommend(docId, recommendlist);
+        
+        auto currRecommend = recommendlist.headPtr();
+        while(currRecommend && count < 5) {
+            int currDocId = currRecommend->elem().docId;
+            std::ifstream docFile("./output/" + std::to_string(currDocId) + ".info");
+            assert(docFile.is_open());
+            if (!docFile.is_open()) {
+                currRecommend = currRecommend->next();
+                continue;
+            }
+            count ++;
+            std::getline(docFile,line);
+            
+            target += "<h2>";
+            target += line;
+            target += "</h2>";
+            
+            while(std::getline(docFile,line)) {
+                target += line;
+                target += "<br>";
+            }
+            target += "<br>";
+            docFile.close();
+            currRecommend = currRecommend->next();
+        }
+        
+        fc.saveStringTo(target, "./html/" + std::to_string(docId) + ".html", true);
+    }
+    
+    void generateHtml() {
+        MyList<CharString> filenames;
+		fc.findFilenames("./input", filenames);
+		int tot = filenames.length();
+		int count = 0;
+        auto currFile = filenames.headPtr();
+        while(currFile) {
+			count++;
+			std::cout << std::setprecision(4) << float(count) / float(tot) * 100 << "%" << std::endl;
+
+            int docId= atoi(currFile->elem().split(".html",true,1).headPtr()->elem().toCStr());
+            generateHtml(docId);
+			currFile = currFile->next();
+        }
+    }
+    
 	void extractWordsToFile() {
 		MyList<CharString> filenames;
 		fc.findFilenames("./input", filenames);
@@ -44,7 +117,7 @@ public:
 
 			//解析得到info 和 summary;
 			parser.setHtmlByFileName(filename);
-			CharString info, summary;
+			CharString info, summary, summaryHtml;
 			parser.extractInfo(info, summary);
 
 			//将姓名/电影名加入词库
@@ -65,7 +138,7 @@ public:
 			info += CharString::join(summary.split("\t \n", false));
 
 			std::string infoFilename = (CharString("./output/") + currFile->elem().split(".html", true, 1).headPtr()->elem() + CharString(".info")).toStr();
-			fc.saveStringTo(info, infoFilename);
+			fc.saveStringTo(info, infoFilename, true);
 
 			//分词
 			seg.divideWords(CharString::UTF8ToGB(summary.toCStr()), segList);
@@ -196,7 +269,7 @@ public:
 		std::string line;
 		while (std::getline(queryFile, line)) {
 			DocList queryResult;
-			query(CharString(line).split(" "), queryResult);
+			query(CharString(CharString::UTF8ToGB(line.c_str())).split(" "), queryResult);
 			
 
 			auto currQuery = queryResult.headPtr();
@@ -259,10 +332,10 @@ public:
 		int docId;
 		std::string line;
 		while (std::getline(queryFile, line)) {
-			if (getMovieId(line, docId)) {
+			if (getMovieId(CharString::UTF8ToGB(line.c_str()), docId)) {
 				DocList queryResult;
 				recommend(docId, queryResult);
-
+				
 				auto currDoc = queryResult.headPtr();
 				int currDocId;
 				CharString currMovieName;

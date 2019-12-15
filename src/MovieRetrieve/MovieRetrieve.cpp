@@ -29,29 +29,6 @@ void init() {
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }
 
-void testListIter() {
-	MyList<int> l;
-	for (int i = 0; i < 3; i++) {
-		l.add(i);
-	}
-
-	std::cout << (*l.begin()).elem() << " " << (*l.end()).elem() << "\n";
-	for (ListNode<int> numNode : l) {
-		std::cout << numNode.elem() << "\n";
-	}
-}
-void testUpdate() {
-	AVLTree<CharString, DocList> t;
-	t.insert("悲剧", DocList());
-	auto p = t.search("悲剧");
-	p->m_elem.addCount(0);
-	p->m_elem.addCount(1);
-	p->m_elem.addCount(1);
-	p->m_elem.addCount(2);
-	p->m_elem.addCount(3);
-	p->m_elem.addCount(3);
-}
-
 
 int main()
 {
@@ -65,12 +42,12 @@ int main()
 	//solve();
 	//testPunc();
 	//testAVLandDoclist();
-	//s.extractWordsToFile();
+	s.extractWordsToFile();
 	s.createAVLDictionary();
 	s.createRecommendTree();
 	s.queryToFile();
-	//s.recommendToFile();
-
+	s.recommendToFile();
+	s.generateHtml();
 	
 	//std::cout << "\n";
 	//s.recommend(2).printList();

@@ -1,0 +1,8 @@
+﻿  MovieRetrieve.cpp
+C:\Users\zml05\Desktop\DSProject\src\MovieRetrieve\MyString.h(28,1): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  Solve.cpp
+C:\Users\zml05\Desktop\DSProject\src\MovieRetrieve\MyString.h(28,1): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  正在生成代码...
+C:\Users\zml05\Desktop\DSProject\src\MovieRetrieve\AVLTree.h(167): warning C4715: “AVLTree<int,CharString>::adjust”: 不是所有的控件路径都返回值
+C:\Users\zml05\Desktop\DSProject\src\MovieRetrieve\AVLTree.h(167): warning C4715: “AVLTree<CharString,DocList>::adjust”: 不是所有的控件路径都返回值
+  MovieRetrieve.vcxproj -> C:\Users\zml05\Desktop\DSProject\src\x64\Debug\MovieRetrieve.exe

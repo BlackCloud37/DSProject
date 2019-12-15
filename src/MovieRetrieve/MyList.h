@@ -267,8 +267,8 @@ public:
 		}
 		std::cout << std::endl;
 	}
-	template<class Elemtype> friend std::ostream& operator<< (std::ostream&, const MyList&);
-	template<class Elemtype> friend std::ofstream& operator<< (std::ofstream&, const MyList&);
+	//template<class Elemtype> friend std::ostream& operator<< (std::ostream&, const MyList&);
+	//template<class Elemtype> friend std::ofstream& operator<< (std::ofstream&, const MyList&);
     //friend std::ostream& operator<< (std::ostream&, const MyList&);
     //friend std::ofstream& operator<< (std::ofstream&, const MyList&);
 };

@@ -39,7 +39,7 @@ private:
     
     QPushButton* backButton;
     QPushButton* forwardButton;
-    QPushButton* homeButton;
+
 
     SearchTextBrowser* searchResult;
 

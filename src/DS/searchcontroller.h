@@ -11,7 +11,9 @@ class SearchController : public QObject
 public:
     explicit SearchController(QObject *parent = nullptr);
     void setSolve(Solve* solve);
-    void parseInfoToString(std::ifstream& f, std::string& target);
+    void parseInfoToString(int docId, QList<QString>& words, std::ifstream& f, std::string& target);
+    std::string highLight(QList<QString>& words, CharString str);
+    void generateHtml(int docId);
 signals:
     void sendText(QString);
     void sourceChanged(QUrl);
