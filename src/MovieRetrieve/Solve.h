@@ -280,7 +280,6 @@ public:
 			else {
 				resultFile << "该电影不在数据库中，无法推荐\n";
 			}
-
 		}
 		queryFile.close();
 		resultFile.close();

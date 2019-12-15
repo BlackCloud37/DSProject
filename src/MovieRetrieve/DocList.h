@@ -54,12 +54,10 @@ class DocList :
 		if (!p->m_prev) {
 			m_headPtr() = p;
 		}
-		if (!p->m_next) {
-			m_tailPtr() = p;
+		while (p->next()) {
+			p = p->next();
 		}
-		else if (!p->m_next->m_next) {
-			m_tailPtr() = p->m_next;
-		}
+		m_tailPtr() = p;
 		return true;
 	}
 

@@ -40,6 +40,17 @@ void testListIter() {
 		std::cout << numNode.elem() << "\n";
 	}
 }
+void testUpdate() {
+	AVLTree<CharString, DocList> t;
+	t.insert("悲剧", DocList());
+	auto p = t.search("悲剧");
+	p->m_elem.addCount(0);
+	p->m_elem.addCount(1);
+	p->m_elem.addCount(1);
+	p->m_elem.addCount(2);
+	p->m_elem.addCount(3);
+	p->m_elem.addCount(3);
+}
 
 
 int main()
@@ -58,8 +69,10 @@ int main()
 	s.createAVLDictionary();
 	s.createRecommendTree();
 	s.queryToFile();
-	s.recommendToFile();
-	std::cout << "\n";
+	//s.recommendToFile();
+
+	
+	//std::cout << "\n";
 	//s.recommend(2).printList();
 	//s.queryToFile();
 	//testListIter();
