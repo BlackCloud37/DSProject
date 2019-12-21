@@ -131,7 +131,7 @@ private:
 			break;
 		}
 	}
-	//总体平衡调整
+	//总体平衡调整，不对外开放，只在插入时作平衡操作
 	bool adjust(AVLTreeNode<KeyType, ElemType>*& t, DIRECTION d) {
 		if (!t)
 			return false;

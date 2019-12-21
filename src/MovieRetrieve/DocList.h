@@ -75,6 +75,8 @@ public:
     DocList(const DocList& other): MyList<DocNode>(other) {
         
     }
+	
+
 	//在链表中搜索文档
 	//成功返回节点指针，失败返回nullptr
     ListNode<DocNode>* searchByDocID(int docId) {
@@ -88,8 +90,8 @@ public:
 		return nullptr;
 	 }
 
-	//增加某文档计数（即Edit）
-	 void addCount(int docId, int count = 1) {
+	//增加某文档计数，若无文档则创建文档，若有文档则直接增加计数（即综合了Add及Edit，方便使用）
+	 void edit(int docId, int count = 1) {
 		 ListNode<DocNode>* node = searchByDocID(docId);
 		 if (!node) {
 			 add(DocNode(docId))->m_elem.count += count;
@@ -100,7 +102,6 @@ public:
 		 }
 		 return;
 	 }
-
 	 //返回该链表文档总数
 	 int howManyDocs() {
 		 return length();
