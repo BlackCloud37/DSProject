@@ -188,7 +188,7 @@ public:
 				if (!docTree.search(currWord->elem())) {
 					docTree.insert(currWord->elem(), DocList());
 				}
-				docTree.search(currWord->elem())->m_elem.addCount(currDocId);
+				docTree.search(currWord->elem())->m_elem.edit(currDocId);
 
 				currWord = currWord->next();
 			}
@@ -230,7 +230,7 @@ public:
 				if (!recommendTree.search(currWord->elem())) {
 					recommendTree.insert(currWord->elem(), DocList());
 				}
-				recommendTree.search(currWord->elem())->m_elem.addCount(currDocId);
+				recommendTree.search(currWord->elem())->m_elem.edit(currDocId);
 
 				currWord = currWord->next();
 			}
@@ -252,7 +252,7 @@ public:
             while(currDoc) {
                 int docId = currDoc->elem().docId;
                 int count = currDoc->elem().count;
-                ret.addCount(docId, count);
+                ret.edit(docId, count);
                 currDoc = currDoc->next();
             }
             currWord = currWord->next();
@@ -312,7 +312,7 @@ public:
 					if (currDoc->elem().docId != dstDocId) {
 						int docId = currDoc->elem().docId;
 						int count = currDoc->elem().count;
-						ret.addCount(docId, count);
+						ret.edit(docId, count);
 					}
 					currDoc = currDoc->m_next;
 
