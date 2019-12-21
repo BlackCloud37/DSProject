@@ -24,12 +24,15 @@ int main()
 	Solve s;
 	clock_t start, end;
 	start = clock();
-	s.extractWordsToFile();
+
+	
+
+	//s.extractWordsToFile();
 	s.createAVLDictionary();
 	s.createRecommendTree();
 	s.queryToFile();
 	s.recommendToFile();
-	s.generateHtml();
+	//s.generateHtml();
 	end = clock();
 	std::cout << "Time Used: " << (end - start) / 1000 << "s\n";
 }

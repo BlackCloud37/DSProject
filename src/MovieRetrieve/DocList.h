@@ -3,6 +3,8 @@
 
 class DocList;
 
+
+//文档节点，包含了文档id和一计数，计数表示了此文档中，某个词出现的次数
 class DocNode {
 public:
 	friend class DocList;
@@ -31,10 +33,12 @@ public:
 };
 
 
-
+//文档链表，每个链表对应一个词，链表中的节点分别记录了每个文档中该词出现的次数
 class DocList :
+	//继承链表类
 	public MyList<DocNode>
-{
+{	
+	//为维持“关键词出现次数最多的靠前”的排序，每次插入/修改某节点后都让它上浮到合适位置
 	bool update(ListNode<DocNode>* p) {
 		if (!p)
 			return false;
@@ -71,6 +75,8 @@ public:
     DocList(const DocList& other): MyList<DocNode>(other) {
         
     }
+	//在链表中搜索文档
+	//成功返回节点指针，失败返回nullptr
     ListNode<DocNode>* searchByDocID(int docId) {
 		ListNode<DocNode>* curr = m_headPtr();
 		while (curr) {
@@ -82,7 +88,7 @@ public:
 		return nullptr;
 	 }
 
-
+	//增加某文档计数（即Edit）
 	 void addCount(int docId, int count = 1) {
 		 ListNode<DocNode>* node = searchByDocID(docId);
 		 if (!node) {
@@ -95,11 +101,11 @@ public:
 		 return;
 	 }
 
-
+	 //返回该链表文档总数
 	 int howManyDocs() {
 		 return length();
 	 }
-
+	 //返回该词在所有文档中出现总次数
 	 int totCount() {
 		 int c = 0;
 		 auto curr = headPtr();

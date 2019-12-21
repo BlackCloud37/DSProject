@@ -23,6 +23,7 @@ class Solve
 	AVLTree<CharString, DocList> recommendTree;
 	AVLTree<int, CharString> movieIdToName;
 public:
+	//输入一个电影id，生成其html文件
     void generateHtml(int docId)
     {
         std::string filename = "./output/" + std::to_string(docId) + ".info";
@@ -79,7 +80,7 @@ public:
         
         fc.saveStringTo(target, "./html/" + std::to_string(docId) + ".html", true);
     }
-    
+    //为每一个电影生成html文件，用于gui
     void generateHtml() {
         MyList<CharString> filenames;
 		fc.findFilenames("./input", filenames);
@@ -155,7 +156,7 @@ public:
 		//getchar();
 	}
 
-
+	//根据output里的分词结果创建词典
 	void createAVLDictionary() {
 
 		MyList<CharString> filenames;
@@ -195,7 +196,7 @@ public:
 			currFile = currFile->next();
 		}
 	}
-
+	//根据movieInfo文件夹内的词表创建电影推荐树
 	void createRecommendTree() {
 
 		MyList<CharString> filenames;
@@ -236,7 +237,7 @@ public:
 			currFile = currFile->next();
 		}
 	}
-
+	//输入关键词链表list，将查询结果保存到ret
     void query(const MyList<CharString>& list, DocList& ret) {
         auto currWord = list.headPtr();
         while(currWord) {
@@ -258,7 +259,7 @@ public:
         }
 
     }
-
+	//读取query1,生成result1
 	void queryToFile() {
 		std::ifstream queryFile("./query1.txt");
 		std::ofstream resultFile("./result1.txt",std::ios::trunc | std::ios::out);
@@ -285,7 +286,7 @@ public:
 		queryFile.close();
 		resultFile.close();
 	}
-
+	//输入要推荐的电影id，将推荐结果保存到ret
 	void recommend(int dstDocId, DocList& ret) {
 		
 		std::stringstream buf;
@@ -321,7 +322,7 @@ public:
 			currWord = currWord->next();
 		}
 	}
-
+	//读取query2，生成result2
 	void recommendToFile() {
 		std::ifstream queryFile("./query2.txt");
 		std::ofstream resultFile("./result2.txt", std::ios::trunc | std::ios::out);
@@ -357,6 +358,7 @@ public:
 		queryFile.close();
 		resultFile.close();
 	}
+	//以电影名搜索电影id
 	bool getMovieId(const CharString& name, int& id) {
 		auto treeNode = recommendTree.search(name);
 		if (treeNode) {
@@ -365,7 +367,7 @@ public:
 		}
 		else return false;
 	}
-
+	//以电影id搜索电影名
 	bool getMovieName(int docId, CharString& name) {
 		auto treeNode = movieIdToName.search(docId);
 		if (treeNode) {

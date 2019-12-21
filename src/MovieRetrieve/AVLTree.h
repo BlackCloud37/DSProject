@@ -6,8 +6,6 @@ public:
 	KeyType m_key;
 	ElemType m_elem;
 	int m_bf;
-
-	//AVLTreeNode<KeyType, ElemType>* m_parent;
 	AVLTreeNode<KeyType, ElemType>* m_lChild;
 	AVLTreeNode<KeyType, ElemType>* m_rChild;
 public:
@@ -15,7 +13,6 @@ public:
 		m_key(k),
 		m_elem(e),
 		m_bf(0),
-		//m_parent(nullptr),
 		m_lChild(nullptr),
 		m_rChild(nullptr)
 	{}
@@ -32,6 +29,7 @@ class AVLTree {
 	
 
 private:
+	//左旋
 	void L_Rotate(AVLTreeNode<KeyType, ElemType>*& p) {
 		AVLTreeNode<KeyType, ElemType>* rc = nullptr;
 		rc = p->m_rChild;
@@ -40,7 +38,7 @@ private:
 		rc->m_lChild = p;
 		p = rc;
 	}
-
+	//右旋
 	void R_Rotate(AVLTreeNode<KeyType, ElemType>*& p) {
 		AVLTreeNode<KeyType, ElemType>* lc = nullptr;
 		lc = p->m_lChild;
@@ -49,7 +47,7 @@ private:
 		lc->m_rChild = p;
 		p = lc;
 	}
-
+	//左平衡调整
 	void leftBalance(AVLTreeNode<KeyType, ElemType>*& t) {
 		AVLTreeNode<KeyType, ElemType>* lc = nullptr;
 		AVLTreeNode<KeyType, ElemType>* rd = nullptr;
@@ -91,7 +89,7 @@ private:
 			break;
 		}
 	}
-
+	//右平衡调整
 	void rightBalance(AVLTreeNode<KeyType, ElemType>*& t) {
 		AVLTreeNode<KeyType, ElemType>* rc = nullptr;
 		AVLTreeNode<KeyType, ElemType>* ld = nullptr;
@@ -133,7 +131,7 @@ private:
 			break;
 		}
 	}
-
+	//总体平衡调整
 	bool adjust(AVLTreeNode<KeyType, ElemType>*& t, DIRECTION d) {
 		if (!t)
 			return false;
@@ -165,7 +163,7 @@ private:
 			}
 		}
 	}
-
+	//析构以t为根的树
 	void destroy(AVLTreeNode<KeyType, ElemType>*& t) {
 		if (t) {
 			destroy(t->m_lChild);
@@ -174,7 +172,8 @@ private:
 			t = nullptr;
 		}
 	}
-
+	//在以t为根的树中插入一个关键字为key，元素为elem的节点
+	//成功返回true,否则返回false
 	bool insert(AVLTreeNode<KeyType, ElemType>*& t, const KeyType& key, const ElemType& elem, bool& taller) {
 		if (!t) {
 			t = new AVLTreeNode<KeyType, ElemType>(key, elem);
@@ -204,7 +203,8 @@ private:
 		}
 		return true;
 	}
-
+	//在以t为根的树中搜索key节点
+	//成功返回节点指针，否则返回nullptr
 	AVLTreeNode<KeyType, ElemType>* search(AVLTreeNode<KeyType, ElemType>* t, const KeyType& key)  {
 		if (!t)
 			return nullptr;
@@ -219,39 +219,19 @@ private:
 public:
 	AVLTreeNode<KeyType, ElemType>* m_root;
 	AVLTree() : m_root(nullptr) {}
-	//explict AVLTree(const AVLTree<KeyType, ElemType>& o);
-    //AVLTree(AVLTree<KeyType, ElemType>&);
 	~AVLTree() {
 		destroy(m_root);
 	}
 
-
+	//对外开放的insert，作为树的成员函数，不必再传入树根参数
 	bool insert(const KeyType& key, const ElemType& elem) {
 		bool taller = false;
 		return insert(m_root, key, elem, taller);
 	}
-
+	//对外开放的search，作为树的成员函数，不必再传入树根参数
 	AVLTreeNode<KeyType, ElemType>* search(const KeyType& key) {
 		return search(m_root, key);
 	}
-	
-	/*
-	bool remove(AVLTreeNode<KeyType, ElemType>*& t, const KeyType& key, bool& shorter) {
-		if (!t) {
-			return false;
-		}
-		else if (key == t->m_key) {
-			AVLTreeNode<KeyType, ElemType>* q = nullptr;
-			if (!t->m_lChild) {
-				q = t;
-				t = t->m_lChild;
-				delete q;
-				shorter = true;
-			}
-			
-		}
-	}
-	*/
 };
 
 
